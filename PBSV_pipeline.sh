@@ -2,7 +2,7 @@
 export PATH=~/Tools/bcftools-1.13:$PATH
 basepath=/home1/Laisenying/Data-analysis/projects/PhageSV
 
-for sample in `cat /home1/Laisenying/Data-analysis/projects/PhageSV/sample.txt`
+for sample in `cat sample.txt`
 do
 
 SubreadBam=${sample}.subreads.bam
