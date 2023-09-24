@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from collections import defaultdict
 from scipy.stats import fisher_exact,hypergeom
-SV_gene_inf = pd.read_csv("/Users/laisenying/Desktop/Temp_file/Projects/PhageomeSV/Script v3.0/Results/ViralSV_gene_functional_category.tsv",sep="\t",index_col=0)
+SV_gene_inf = pd.read_csv("Results/ViralSV_gene_functional_category.tsv",sep="\t",index_col=0)
 SV_gene_inf = SV_gene_inf.drop_duplicates(['geneID','SVID','SVTYPE','Level2_viral_category'])
 SV_gene_inf.loc[SV_gene_inf['Level2_viral_category']!=SV_gene_inf['Level2_viral_category'],'Level2_viral_category'] = 'Others'
 SV_KEGG_data = SV_gene_inf
@@ -69,7 +69,7 @@ import numpy as np
 from collections import defaultdict
 from scipy.stats import fisher_exact,hypergeom
 
-ViralSV_gene_inf = pd.read_csv("/Users/laisenying/Desktop/Temp_file/Projects/PhageomeSV/Script v3.0/Results/ViralSV_gene_functional_category.tsv",sep="\t",index_col=0)
+ViralSV_gene_inf = pd.read_csv("Results/ViralSV_gene_functional_category.tsv",sep="\t",index_col=0)
 ViralSV_gene_inf.loc[ViralSV_gene_inf['GO_name']=='GO: CRISPR-cas system','Level2_viral_category'] = 'CRISPR-cas system'
 ViralSV_gene_inf.loc[['CRISPR' in str(x) for x in ViralSV_gene_inf['Pfam_function']],'Level2_viral_category'] = 'CRISPR-cas system'
 ViralSV_gene_inf.loc[ViralSV_gene_inf['Functional_category']=='Antibiotic resistance','Level2_viral_category']
@@ -99,7 +99,7 @@ Viral_SVLEN_inf = ViralSV_inf.loc[:,['SVID','SVLEN']]
 ViralSV_gene_inf = pd.merge(ViralSV_gene_inf,Viral_SVLEN_inf,on='SVID',how='left')
 ViralSV_gene_inf['SVLEN'] = np.abs(ViralSV_gene_inf['SVLEN'])
 ViralSV_gene_inf['SVLEN'] = ViralSV_gene_inf['SVLEN'].fillna(0)
-ViralGene_recombinase_inf = pd.read_csv("/Users/laisenying/Desktop/Temp_file/Projects/PhageomeSV/Script v3.0/Results/proMGE_Viralprotein_recombinase.tsv",sep="\t",index_col=0)
+ViralGene_recombinase_inf = pd.read_csv("Results/proMGE_Viralprotein_recombinase.tsv",sep="\t",index_col=0)
 
 HUH_genes = set(ViralGene_recombinase_inf.loc[ViralGene_recombinase_inf['Recombinase_category']=='HUH recombinase','geneID'])
 Tyr_genes = set(ViralGene_recombinase_inf.loc[ViralGene_recombinase_inf['Recombinase_category']=='Tyr recombinase','geneID'])
@@ -432,6 +432,6 @@ SV_enrich_data = SV_enrich_data.loc[SV_enrich_data['SV_foldchange']==SV_enrich_d
 SV_enrich_data_noGE = SV_enrich_data
 
 SV_enrich_data_all = pd.concat([SV_enrich_data_noGE,SV_enrich_data_GE])
-SV_enrich_data_all.to_csv("/Users/laisenying/Desktop/Temp_file/Projects/PhageomeSV/Script v3.0/Results/Functional_enrichment_GEvsnoGE_SVs.tsv",sep="\t")
+SV_enrich_data_all.to_csv("Results/Functional_enrichment_GEvsnoGE_SVs.tsv",sep="\t")
 
 
