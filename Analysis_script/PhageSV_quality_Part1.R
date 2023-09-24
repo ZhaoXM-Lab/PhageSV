@@ -53,7 +53,7 @@ E2_performance_all$Metric_group = factor(E2_performance_all$Metric_group,levels=
 
 E2_performance_all$Group2 = paste(E2_performance_all$Metric_group,E2_performance_all$Group,sep='-')
 
-pdf("/Users/laisenying/Desktop/Fig1a.pdf",width=6,height=5)
+pdf("Fig1a.pdf",width=6,height=5)
 ggplot(E2_performance_all,aes(x=Tool,y=Metric)) +
     geom_point(aes(color=Metric_group,shape=Metric_group),size=3) +
     geom_line(aes(group=Group2,color=Metric_group,linetype=Group)) +
@@ -99,7 +99,7 @@ E1_performance_all$Metric_group = factor(E1_performance_all$Metric_group,levels=
 
 E1_performance_all$Group2 = paste(E1_performance_all$Metric_group,E1_performance_all$Group,sep='-')
 
-pdf("/Users/laisenying/Desktop/FigS1a_uneven_simulated_benchmarking.pdf",width=6,height=5)
+pdf("FigS1a_uneven_simulated_benchmarking.pdf",width=6,height=5)
 ggplot(E1_performance_all,aes(x=Tool,y=Metric)) +
     geom_point(aes(color=Metric_group,shape=Metric_group),size=3) +
     geom_line(aes(group=Group2,color=Metric_group,linetype=Group)) +
@@ -119,13 +119,12 @@ dev.off()
 # Pre-filtering VS. non-filtering on the real dataset
 ######################################################
 
-scp Laisenying@10.190.248.211:/share/home1/Laisenying/Data-analysis/projects/PhageSV/PBSV/Data_for_plot/SV_stat.csv /Users/laisenying/Desktop/SV_stat.csv
 
-data = read.csv("/Users/laisenying/Desktop/SV_stat.csv")
+data = read.csv("SV_stat.csv")
 data = data[data$Group != 'Pre-filter(PB+NGS)',]
 data$Group = factor(data$Group,levels=c("No-filter",'Pre-filter(PB)'),labels=c("No-filter",'Pre-filter'))
 
-pdf("/Users/laisenying/Desktop/FigS1b_FilterVSnoFilter.pdf",width=4,height=5)
+pdf("FigS1b_FilterVSnoFilter.pdf",width=4,height=5)
 ggplot(data,aes(x=Group,y=Total_num)) +
     theme_bw() +
     geom_boxplot(aes(fill = Group), outlier.size=0, width = 0.6,alpha=0.6) +
@@ -147,7 +146,6 @@ dev.off()
 #######################################################
 # Long-read SV calling VS. Short-read based SV calling
 #######################################################
-#scp Laisenying@10.190.248.211:/share/home1/Laisenying/Data-analysis/projects/PhageSV/PacBio_SV/Data_for_plot/NGS_vs_PB_sv_inf.csv /Users/laisenying/Desktop/NGS_vs_PB_sv_inf.csv
 
 # Shell
 # python3 scripts/PBvsNGS_stat.py --NGS_VCF_list NGS_VCF_path.txt --PacBio_VCF_list PB_VCF_path.txt --outputfile Results/NGS_vs_PB_sv_inf.csv
@@ -157,7 +155,7 @@ data = read.csv("Results/NGS_vs_PB_sv_inf.csv")
 library(forcats)
 library(ggpubr)
 
-pdf("/Users/laisenying/Desktop/FigS1b_FilterVSnoFilter.pdf",width=3,height=5)
+pdf("FigS1b_FilterVSnoFilter.pdf",width=3,height=5)
 ggplot(data,aes(x=Group,y=Total)) +
     theme_bw() +
     geom_boxplot(aes(fill = Group), outlier.size=0, width = 0.6) +
@@ -186,7 +184,7 @@ dev.off()
 Barplot_data = data.frame(Count = c(6690, 7014, 350, 284), SVTYPE=c("INS","DEL","DUP","INV"))
 Barplot_data$SVTYPE = factor(Barplot_data$SVTYPE,levels=c("INS","DEL","DUP","INV"))
 
-pdf("/Users/laisenying/Desktop/Fig1b.pdf",width=3,height=5)
+pdf("Fig1b.pdf",width=3,height=5)
 ggplot(Barplot_data,aes(x=SVTYPE,y=Count)) +
     geom_bar(aes(fill=SVTYPE),stat='identity',color='black',width=0.8) +
     theme_bw() +
@@ -208,15 +206,13 @@ dev.off()
 # Length distribution of 14,338 non-redundant viral SVs
 #######################################################
 
-#scp Laisenying@10.190.248.211:/share/home1/Laisenying/Data-analysis/projects/PhageSV/PacBio_SV/CAST_merge/Population/Result/SV_bed_inf.tsv /Users/laisenying/Desktop/SV_bed_inf.tsv
-
 #python3 Scripts/VCFstat.py \
 #    --VCF_file Results/Sample_SV_common_0.8_suppl.vcf \
 #    --VCF_list Results/VCF_list.txt \
 #    --outputfile Results/SV_bed_inf.tsv
 
 
-ViralSV_inf = read.csv("/Users/laisenying/Desktop/Temp_file/Projects/PhageomeSV/Script v3.0/Results/SV_bed_inf.tsv",sep="\t",row.names=1)
+ViralSV_inf = read.csv("Results/SV_bed_inf.tsv",sep="\t",row.names=1)
 ViralSV_inf$SVTYPE = factor(ViralSV_inf$SVTYPE,levels=c("INS","DEL","DUP","INV"))
 
 pdf("/Users/laisenying/Desktop/Fig1c.pdf",width=5,height=5)
@@ -243,7 +239,7 @@ dev.off()
 
 # SNP all calcualted using inStrain
 
-SNP_inf= read.csv("/Users/laisenying/Desktop/Temp_file/Projects/PhageomeSV/Script v3.0/Results/all_genome_SNP_inf.tsv",sep="\t")
+SNP_inf= read.csv("Results/all_genome_SNP_inf.tsv",sep="\t")
 SNP_inf$SV_density = SNP_inf$SV_number/(SNP_inf$length/1000000)
 cor.test(SNP_inf$SV_density,(SNP_inf$SNS_count+SNP_inf$SNV_count)/(SNP_inf$length*SNP_inf$breadth_minCov/1000000),na.rm=TRUE) # Cor = 0.61, pvalue
 
@@ -266,9 +262,8 @@ dev.off()
 
 
 # Gene in SV region has significant higher nucleotide deversity
-scp Laisenying@10.190.248.211:/share/home1/Laisenying/Data-analysis/projects/PhageSV/inStrain/Data_summary/all_gene_SNP_inf.tsv /Users/laisenying/Desktop/all_gene_SNP_inf.tsv
 
-SNP_inf = read.csv("/Users/laisenying/Desktop/Temp_file/Projects/PhageomeSV/Script v3.0/Results/all_gene_SNP_inf.tsv",sep="\t")
+SNP_inf = read.csv("Results/all_gene_SNP_inf.tsv",sep="\t")
 data_filter = SNP_inf[!is.na(SNP_inf$nucl_diversity),]
 data_filter = data_filter[data_filter$breadth_minCov>0.4,]
 data_filter = data_filter[data_filter$coverage>5,]
@@ -276,7 +271,7 @@ data_filter$SV.associated = factor(data_filter$SV.associated,
     levels=c("no_SV","noGE_SV","GE_SV"),labels=c("Gene in conserved region","Gene in SVs","Gene in SVs"))
 
 
-pdf("/Users/laisenying/Desktop/Fig1f_1.pdf",width=5,height=5)
+pdf("Fig1f_1.pdf",width=5,height=5)
 ggplot(data_filter,aes(x=log(coverage),y=nucl_diversity)) +
     geom_smooth(aes(group=SV.associated,color=SV.associated,fill=SV.associated)) +
     #geom_point(aes(color=SV.associated)) +
@@ -294,7 +289,7 @@ ggplot(data_filter,aes(x=log(coverage),y=nucl_diversity)) +
     guides(fill=FALSE)
 dev.off()
 
-pdf("/Users/laisenying/Desktop/Fig1f_2.pdf",width=1,height=2)
+pdf("Fig1f_2.pdf",width=1,height=2)
 ggplot(data_filter[sample(1:nrow(data_filter),10000),],aes(x=SV.associated,y=nucl_diversity)) +
     geom_boxplot(aes(fill=SV.associated,color=SV.associated),width=0.6,outlier.size=0) +
     theme_bw() +
@@ -319,7 +314,7 @@ dev.off()
 # SV/SNV density across variable viral families
 #######################################################
 
-ViralSV_density_inf = read.csv("/Users/laisenying/Desktop/Temp_file/Projects/PhageomeSV/Script v3.0/Results/ViralSV_density_inf.tsv",sep="\t",row.names=1)
+ViralSV_density_inf = read.csv("Results/ViralSV_density_inf.tsv",sep="\t",row.names=1)
 ViralSV_density_inf$vOTU[ViralSV_density_inf$vOTU==''] = 'Others'
 length(table(ViralSV_density_inf$vOTU))
 ViralSV_density_inf$Family[ViralSV_density_inf$Family==''] = 'Others'
@@ -416,18 +411,18 @@ import numpy as np
 import os
 from Bio import SeqIO
 
-sample_list = pd.read_csv("/share/home1/Laisenying/Data-analysis/projects/PhageSV/sample.txt",sep="\t",header=None)
+sample_list = pd.read_csv("sample.txt",sep="\t",header=None)
 
 all_genome_data = pd.DataFrame({})
 for sample in list(sample_list[0]):
-    if os.path.exists("/share/home1/Laisenying/Data-analysis/projects/PhageSV/PBSV/"+sample+"/Mash_filter/screen.tab"):
+    if os.path.exists("PBSV/"+sample+"/Mash_filter/screen.tab"):
         sample_data = pd.read_csv("/share/home1/Laisenying/Data-analysis/projects/PhageSV/PBSV/"+sample+"/Mash_filter/screen.tab",sep="\t",header=None)
         sample_data.columns = ['Identity','Shared-hashes','median-multiplicity','p-value','Genome_fasta','Genome']
         sample_data_filter = sample_data.loc[sample_data['Identity']>0.95,]
         sample_data_filter['sample'] = sample
         sample_data_filter = sample_data_filter.loc[:,['Genome','sample']]
         all_genome_data  = pd.concat([all_genome_data,sample_data_filter])
-all_genome_data.to_csv("/home1/Laisenying/Projects/PhageSV/Results/Genomes_selected_for_sample.tsv",sep="\t") # 9,183
+all_genome_data.to_csv("Results/Genomes_selected_for_sample.tsv",sep="\t") # 9,183
 
 
 
